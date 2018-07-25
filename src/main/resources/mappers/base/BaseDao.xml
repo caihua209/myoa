@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myoa.dao.base.BaseDao">
+
+	<!-- 根据sql动态查询 -->
+	<select id="getBySQL" resultType="Map" statementType="STATEMENT">
+		select *
+		from ${table}
+
+		where 1=1
+		<foreach item="item" index="key" collection="wheres" open=""
+			separator="AND" close="">${key} = ${item}</foreach>
+			
+		<if test="order !=null">
+			order by ${order} desc 
+		</if>
+		<if test="begin != null">
+			limit ${begin}
+			<if test="end !=null ">
+				,${end}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 根据sql动态查询 -->
+	<select id="countBySQL" resultType="int" statementType="STATEMENT">
+		select count(*)
+		from ${table}
+		where
+		<foreach item="item" index="key" collection="wheres" open=""
+			separator="AND" close="">${key} = ${item}</foreach>
+	</select>
+
+	<!-- 根据sql动态更新 -->
+	<update id="updateBySQL">
+		update ${table} set
+		<foreach item="field" index="name" collection="fields" open=""
+			separator="," close="">
+			'${name}'=#{field}
+		</foreach>
+		where
+		<foreach item="item" index="key" collection="wheres" open=""
+			separator="AND" close="">${key} = ${item}</foreach>
+	</update>
+
+	<!-- 根据sql动态删除 -->
+	<update id="deleteBySQL">
+		delete from ${table} where
+		<foreach item="item" index="key" collection="wheres" open=""
+			separator="AND" close="">${key} = #{item}</foreach>
+	</update>
+
+	<!-- 根据sql动态新增 -->
+	<insert id="insertBySQL">
+		insert into ${table}
+		<foreach item="field" index="key" collection="fields" open="("
+			separator="," close=")">'${key}'</foreach>
+		values
+		<foreach item="field" index="key" collection="fields" open="("
+			separator="," close=")">#{field}</foreach>
+		;
+	</insert>
+
+	<!-- 根据sql动态创建表 -->
+	<update id="createTable" >
+		CREATE TABLE '${table}' (
+		<foreach item="list" index="index" collection="fieldsList" separator=",">
+			${list.fieldName} ${list.fieldType}
+			<if test="list.fieldDedaultValue!=null" >
+				${list.fieldDedaultValue}
+			</if>
+			<if test="list.fieldRestrict !=null">
+				${list.fieldRestrict}
+			</if>
+		</foreach>
+		)
+		ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+	</update>
+
+	<!-- 根据sql动态更新表 -->
+	<update id="alterTable" statementType="STATEMENT">
+		<choose>
+			<when test="type=='add'">
+				ALTER TABLE ${table} add `${fileds.fieldName}` ${fileds.fieldType}
+				<if test="fileds.fieldType!='text'">
+					<if test="fileds.default ==''">default null</if>
+					<if test="fileds.default !=''">default '${fileds.default}'</if>
+
+				</if>
+
+			</when>
+			<when test="type=='modify'">
+				ALTER TABLE ${table} change `${fileds.fieldOldName}`
+				`${fileds.fieldName}` ${fileds.fieldType}
+				<if test="fileds.fieldType!='text'">
+					<if test="fileds.default ==''">default null</if>
+					<if test="fileds.default !=''">default '${fileds.default}'</if>
+				</if>
+
+			</when>
+			<when test="type=='drop'">
+				ALTER TABLE ${table} drop column
+				`${fileds.fieldName}`
+			</when>
+		</choose>
+
+	</update>
+
+	<!-- 根据sql动态删除表 -->
+	<update id="dropTable" statementType="STATEMENT">
+		DROP TABLE ${table}
+	</update>
+
+	<!-- 导入sql语句 -->
+	<update id="excuteSql" parameterType="String" statementType="STATEMENT">
+		${sql}
+	</update>
+	<!--导入sql语句 -->
+	
+</mapper>

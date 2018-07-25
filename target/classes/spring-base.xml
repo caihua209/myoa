@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"    
+    xmlns:context="http://www.springframework.org/schema/context"    
+    xmlns:mvc="http://www.springframework.org/schema/mvc"    
+    xsi:schemaLocation="http://www.springframework.org/schema/beans      
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd      
+                        http://www.springframework.org/schema/context      
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd      
+                        http://www.springframework.org/schema/mvc      
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">    
+    
+    <!-- 引入配置文件 -->    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">    
+        <property name="location" value="classpath:jdbc.properties" />    
+    </bean>    
+        
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">    
+        <property name="driverClassName" value="${db.driver}" />    
+        <property name="url" value="${db.url}" />    
+        <property name="username" value="${db.username}" />    
+        <property name="password" value="${db.password}" />    
+        <!-- 初始化连接大小 -->    
+        <property name="initialSize" value="${db.initialSize}"></property>    
+        <!-- 连接池最大数量 -->    
+        <property name="maxActive" value="${db.maxActive}"></property>    
+        <!-- 连接池最大空闲 -->    
+        <property name="maxIdle" value="${db.maxIdle}"></property>    
+        <!-- 连接池最小空闲 -->    
+        <property name="minIdle" value="${db.minIdle}"></property>    
+        <!-- 获取连接最大等待时间 -->    
+        <property name="maxWait" value="${db.maxWait}"></property>    
+    </bean>    
+    
+    <!-- 定义sqlSessionFactory -->    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">    
+        <property name="dataSource" ref="dataSource" />
+        <!-- 
+        	用于指定Mybatis的配置文件位置。如果指定了该属性，那么会以该配置文件的内容作为配置信息构建对应的SqlSessionFactoryBuilder，
+        	但是后续属性指定的内容会覆盖该配置文件里面指定的对应内容。 
+        -->
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <!-- 指定mapping.xml文件存放路径,当xml跟Dao接口同路径时,可以省略该属性配置 -->    
+        <property name="mapperLocations" value="classpath:mappers/**/*.xml"></property>    
+    </bean>
+    <!-- 
+    	查找指定路径下的dao接口,并创建各自接口的动态代理类
+    	MapperScannerConfigurer的作用也就是将对应的接口的类型改造为MapperFactoryBean，而这个MapperFactoryBean的属性mapperInterface是原类型(UserDao接口)
+    	单个dao接口的配置方法:
+    	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		  <property name="mapperInterface" value="com.myoa.dao.UserDao" />
+		  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		</bean>
+     -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.myoa.dao.*" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+</beans>    
