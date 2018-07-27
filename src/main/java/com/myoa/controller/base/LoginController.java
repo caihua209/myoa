@@ -85,4 +85,16 @@ public class LoginController extends BaseController {
 		return mv;
 	}
 	
+	/**
+	 * 加载首页内容
+	 * @return
+	 */
+	@RequestMapping(value = "/test")
+	@ResponseBody
+	public ModelAndView test() {
+		ModelAndView mv = this.getModelAndView();
+		mv.setViewName("index/test");
+		return mv;
+	}
+	
 }

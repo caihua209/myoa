@@ -279,9 +279,9 @@
 	<div class="page-container">
 
 		<!-- BEGIN SIDEBAR -->
-		<div class="page-sidebar nav-collapse collapse">
+		<div class="page-sidebar nav-collapse collapse" id="">
 			<!-- 左侧菜单 -->        
-			<ul class="page-sidebar-menu">
+			<ul class="page-sidebar-menu" id="ul-menu">
 				<li>
 					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 					<div class="sidebar-toggler hidden-phone"></div>
@@ -555,6 +555,31 @@
 					</ul>
 				</li>
 
+				<!-- 系统模块 -->
+				<li>
+					<a class="active" href="javascript:;">
+					<i class="icon-sitemap"></i> 
+					<span class="title">系统模块</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a href="javascript:;">
+							用户管理
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;">
+							菜单管理
+							</a>
+						</li>
+						<li>
+							<a href="#">
+							角色管理
+							</a>
+						</li>
+					</ul>
+				</li>
 				
 				<!-- 最后一个菜单 -->
 				<li class="last ">
@@ -721,11 +746,89 @@
 		   Index.initDashboardDaterange();
 		   Index.initIntro();
 		   loadIndexContent();
+		   loadMenu(menuData);
 		});
 		
 		// 加载首页内容 
 		function loadIndexContent() {
-			$("#dashboard").load("${ctxPath}/loadIndexContent.do");
+			//$("#dashboard").load("${ctxPath}/loadIndexContent.do");
+		}
+		
+		// 渲染菜单栏 
+		function loadMenu(data) {
+			var html='';
+			for(var key in data) {
+				if (data[key]) {
+					html +='<li><a class="" href="'+data[key]["link"]+'"><i class="icon-sitemap"></i> <span class="title">'+data[key]["name"]+'</span> <span class="arrow "></span></a>';
+					if(data[key]["child"]) {
+						html += createSubNode(data[key]["child"]);
+					}
+					html+='</li>';
+				}
+			}
+			$('#ul-menu').append(html);
+		}
+		
+		// 渲染子节点
+		function createSubNode(data) {
+			var html='<ul class="sub-menu">';
+			for(var key in data) {
+				if(data[key]["child"]) {
+					html +='<li><a class="" href="'+data[key]["link"]+'"><i class="icon-sitemap"></i> <span class="title">'+data[key]["name"]+'</span><span class="arrow "></span></a>';
+					html += createSubNode(data[key]["child"]);
+				} else {
+					html +='<li><a class="" href="'+data[key]["link"]+'"><i class="icon-sitemap"></i> <span class="title">'+data[key]["name"]+'</span></a>';
+				}
+				html += '</li>';
+			}
+			html += '</ul>';
+			return html;
+		}
+		
+		// 模拟菜单数据 
+		var menuData = {
+			"1":{
+				name:"系统模块", 
+			    link:"",
+			    child: {
+			    	"1-1":{
+			    		name:"用户管理",
+			    		link:"index.do",
+			    		child: {
+					    	"1-1-1":{name:"添加用户",link:"index.do"},
+					    	"1-1-2":{name:"查看用户",link:"login.do"},
+					    	"1-1-3":{name:"删除用户",link:"toLogin.do"}
+			    		}
+				    },
+			    	"1-2":{
+			    		name:"菜单管理",
+			    		link:"login.do",
+			    		child: {
+					    	"1-2-1":{name:"添加用户",link:"index.do"},
+					    	"1-2-2":{name:"查看用户",link:"login.do"},
+					    	"1-2-3":{name:"删除用户",link:"toLogin.do"}
+			    		}
+		    		},
+			    	"1-3":{name:"角色管理",link:"toLogin.do"}
+			    }
+			},
+			"2":{
+				name:"系统模块2", 
+			    link:"",
+			    child: {
+			    	"2-1":{
+			    		name:"用户管理2",
+			    		link:"index.do",
+			    		child: {
+					    	"2-1-1":{name:"添加用户2",link:"index.do"},
+					    	"2-1-2":{name:"查看用户2",link:"login.do"},
+					    	"2-1-3":{name:"删除用户2",link:"toLogin.do"}
+			    		}
+				    },
+			    	"2-2":{name:"菜单管理2",link:"login.do"},
+			    	"2-3":{name:"角色管理2",link:"toLogin.do"}
+			    }
+			}
 		}
 	</script>
 </body>
