@@ -555,32 +555,6 @@
 					</ul>
 				</li>
 
-				<!-- 系统模块 -->
-				<li>
-					<a class="active" href="javascript:;">
-					<i class="icon-sitemap"></i> 
-					<span class="title">系统模块</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="javascript:;">
-							用户管理
-							</a>
-						</li>
-						<li>
-							<a href="javascript:;">
-							菜单管理
-							</a>
-						</li>
-						<li>
-							<a href="#">
-							角色管理
-							</a>
-						</li>
-					</ul>
-				</li>
-				
 				<!-- 最后一个菜单 -->
 				<li class="last ">
 					<a href="charts.html">

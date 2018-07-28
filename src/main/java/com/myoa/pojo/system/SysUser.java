@@ -1,7 +1,5 @@
 package com.myoa.pojo.system;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.myoa.pojo.base.BaseEntity;
 
 /**
@@ -36,10 +34,6 @@ public class SysUser extends BaseEntity {
 
 	/** 最后登录时间 */
 	private String lastLogin;
-
-	/** 系统用户创建时间 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private String intime;
 
 	/** 系统用户状态(0.停用 1.启用) */
 	private Integer status;
@@ -113,14 +107,6 @@ public class SysUser extends BaseEntity {
 
 	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
-	}
-
-	public String getIntime() {
-		return intime;
-	}
-
-	public void setIntime(String intime) {
-		this.intime = intime;
 	}
 
 	public Integer getStatus() {
