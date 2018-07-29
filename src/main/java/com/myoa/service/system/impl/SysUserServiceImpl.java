@@ -1,4 +1,4 @@
-package com.myoa.service.system;
+package com.myoa.service.system.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

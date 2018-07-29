@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myoa.pojo.base.JsonResult;
 import com.myoa.pojo.system.SysUser;
-import com.myoa.service.system.SysUserServiceImpl;
+import com.myoa.service.system.impl.SysUserServiceImpl;
 import com.myoa.util.UuidUtil;
 
 /**
