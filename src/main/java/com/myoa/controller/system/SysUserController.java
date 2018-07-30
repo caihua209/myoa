@@ -4,10 +4,12 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.myoa.controller.base.BaseController;
 import com.myoa.pojo.base.JsonResult;
 import com.myoa.pojo.system.SysUser;
 import com.myoa.service.system.impl.SysUserServiceImpl;
@@ -18,7 +20,9 @@ import com.myoa.util.UuidUtil;
  * @author caish
  * @date 2018年7月13日 
  */
-public class SysUserController {
+@Controller
+@RequestMapping(value="/sysUser")
+public class SysUserController extends BaseController {
 
 	@Autowired
     private SysUserServiceImpl sysUserService;

@@ -16,9 +16,9 @@
 	<!-- Shiro Filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/" />
-		<property name="successUrl" value="/index" />
-		<property name="unauthorizedUrl" value="/toLogin" />
+		<property name="loginUrl" value="/toLogin.do" />
+		<property name="successUrl" value="/index.do" />
+		<property name="unauthorizedUrl" value="/toLogin.do" />
 		<!-- 
 			Shiro连接约束配置,即过滤链的定义
 			anon:匿名拦截器，即不需要登录即可访问； 一般用于静态资源过滤 
@@ -27,12 +27,16 @@
 		-->
 		<property name="filterChainDefinitions">
 			<value>
-				/login = anon
+				/media/**=anon
+				/login*=anon
+				/index.jsp=anon
+				/toLogin*=anon
+                /** = authc
 			</value>
 		</property>
 	</bean>
 
-	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->  
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 :可以自动的来调用配置在 Spring IOC 容器中 shiro bean 的生命周期方法.-->  
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>  
 	
 	<!-- 开启Shiro注解 -->

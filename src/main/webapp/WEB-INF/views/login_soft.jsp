@@ -32,11 +32,12 @@
 	<div class="content">
 		<form class="form-vertical login-form" action="${ctxPath}/login.do" method="post">
 			<h3 class="form-title">Login to your account</h3>
-			<div class="alert alert-error hide">
-				<button class="close" data-dismiss="alert"></button>
-				<span>Enter the correct username and password.</span>
-			</div>
-			
+			<c:if test="${error}">
+				<div class="alert alert-error">
+					<button class="close" data-dismiss="alert"></button>
+					<span>Enter the correct username and password.</span>
+				</div>
+			</c:if>
 			<div class="control-group">
 				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 				<label class="control-label visible-ie8 visible-ie9">Username</label>
@@ -62,7 +63,7 @@
 				<label class="checkbox">
 				<input type="checkbox" name="remember" value="1"/> Remember me
 				</label>
-				<button type="submit" class="btn blue pull-right" onclick="loginFun();">
+				<button type="submit" class="btn blue pull-right">
 				Login <i class="m-icon-swapright m-icon-white"></i>
 				</button>            
 			</div>
@@ -228,7 +229,7 @@
 		$('.login-form input').keypress(function (e) {
             if (e.which == 13) {
                 if ($('.login-form').validate().form()) {
-                	loginFun();
+                	$($('.login-form').submit();
                 }
                 return false;
             }

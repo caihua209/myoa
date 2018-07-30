@@ -2,14 +2,16 @@ package com.myoa.controller.base;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.myoa.pojo.base.JsonResult;
-import com.myoa.pojo.system.SysUser;
 
 
 /**
@@ -27,7 +29,6 @@ public class LoginController extends BaseController {
 	@RequestMapping(value="/toLogin")
 	public ModelAndView toLogin() {
 		ModelAndView mv = this.getModelAndView();
-		//mv.setViewName("login");
 		mv.setViewName("login_soft");
 		return mv;
 	}
@@ -36,23 +37,21 @@ public class LoginController extends BaseController {
 	 * 登录
 	 * @return
 	 */
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login", method=RequestMethod.POST)
 	@ResponseBody
-	public JsonResult<String> login(@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password) {
-		JsonResult<String> result = new JsonResult<>();
-		if ("admin".equals(username) && "123".equals(password)) {
-			SysUser user = new SysUser();
-			user.setUserName(username);
-			user.setPassword(password);
-			this.getRequest().getSession().setAttribute("user", user);
-			result.setSuccess(true);
-			result.setMessage("登录成功");
-		} else {
-			result.setSuccess(false);
-			result.setMessage("登录失败");
+	public ModelAndView login(@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value = "password", required = false) String password) {
+		ModelAndView mv = this.getModelAndView();
+		try {
+			Subject subject = SecurityUtils.getSubject(); 
+			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			subject.login(token);
+			mv.setViewName("redirect:index.do");
+		} catch (AuthenticationException e) {
+			mv.addObject("error", true);
+			mv.setViewName("login_soft");
 		}
-		return result;
+		return mv;
 	}
 	
 	/**
@@ -63,12 +62,6 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mv = this.getModelAndView();
-		// TODO 确认是否登录
-		SysUser user = (SysUser) request.getSession().getAttribute("user");
-		if (user == null) {
-			mv.setViewName("login_soft");
-			return mv;
-		}
 		mv.setViewName("index/index");
 		return mv;
 	}

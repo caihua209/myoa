@@ -10,4 +10,11 @@ import com.myoa.pojo.system.SysUser;
  */
 public interface SysUserMapper extends Mapper<SysUser> {
 
+	/**
+	 * 根据用户名查找用户
+	 * @param userName
+	 * @return
+	 */
+	SysUser getByUserName(String userName);
+
 }

@@ -37,9 +37,8 @@ public class ShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();
-		SysUser u = new SysUser();
-		u.setUserName(userName);
-		SysUser user = sysUserService.getOneByWhere(u);
+		SysUser user = sysUserService.getByUserName(userName);
+		System.out.println(user);
 		if (user != null) {
 			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
 			return authcInfo;

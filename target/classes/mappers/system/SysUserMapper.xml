@@ -18,9 +18,17 @@
 				(#{userId}, #{userName});
 	</insert>
 	
+	<!-- 根据id查找用户 -->
 	<select id="getUserByUserId" resultMap="BaseResultMap" parameterType="String">
         select *
         from sys_user
         where user_id = #{userId}
+    </select>
+    
+    <!-- 根据用户名查找用户 -->
+	<select id="getByUserName" resultMap="BaseResultMap" parameterType="String">
+        select *
+        from sys_user
+        where user_name = #{userName}
     </select>
 </mapper>

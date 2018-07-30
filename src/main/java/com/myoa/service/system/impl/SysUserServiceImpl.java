@@ -17,5 +17,15 @@ public class SysUserServiceImpl extends BaseService<SysUser>{
 
 	@Autowired
     private SysUserMapper sysUserMapper;
+
+	/**
+	 * 根据用户名查找用户
+	 * @param userName
+	 * @return
+	 */
+	public SysUser getByUserName(String userName) {
+		SysUser sysUser = sysUserMapper.getByUserName(userName);
+		return sysUser;
+	}
 	
 }
