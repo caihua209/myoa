@@ -17,6 +17,5 @@
     
     <import resource="spring-base.xml"/>    
     <import resource="spring-tx.xml"/>    
-    <import resource="spring-shiro.xml"/>    
         
 </beans>    
