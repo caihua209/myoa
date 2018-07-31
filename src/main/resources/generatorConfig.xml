@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+ PUBLIC " -//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 引入mybatis代码生成器属性文件 -->
+ 	<properties resource="mybatis-generator.properties" />
+  	<classPathEntry location="${drive.class.path}" /> 
+	<!-- 
+		注意以下标签的顺序:property*,plugin*,commentGenerator?,jdbcConnection, javaTypeResolver?,j
+		avaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table++ 
+	-->
+	<context id="MBG" targetRuntime="MyBatis3">
+	
+		<!-- 生成的Java文件的编码 -->
+	    <property name="javaFileEncoding" value="UTF-8"/>
+	    <!-- 格式化java代码 -->
+	    <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+	    <!-- 格式化XML代码 -->
+	    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+	    
+		<commentGenerator>
+		 	<!-- 生成的注释中是否包含时间戳 -->
+			<property name="suppressDate" value="false" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		<!-- mysql数据库连接 -->
+		 <jdbcConnection 
+            driverClass="${jdbc.driver}" 
+            connectionURL="${jdbc.url}"
+            userId="${jdbc.username}" 
+            password="${jdbc.password}">
+        </jdbcConnection>
+        
+		<!-- 生成model实体类文件位置 -->
+		<javaModelGenerator targetPackage="${modelPackage}" targetProject="${targetProject}">
+			<!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+			<property name="trimStrings" value="false" />
+		</javaModelGenerator>
+
+		<!-- 生成mapper.xml配置文件位置 -->
+		<sqlMapGenerator targetPackage="${sqlMapperPackage}" targetProject="${targetProject}">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 生成mapper接口文件位置 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="${daoMapperPackage}" targetProject="${targetProject}">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 
+			需要生成的实体类对应的表名，多个实体类复制多份该配置即可 
+	        enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
+	        enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+	        enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+			enableInsert（默认true）：指定是否生成insert语句；
+	        enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
+	        enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；
+	        enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
+	        enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+		-->
+		<table tableName="sys_role" domainObjectName="SysRole"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+	</context>
+</generatorConfiguration>
