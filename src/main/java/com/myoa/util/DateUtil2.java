@@ -695,8 +695,19 @@ public class DateUtil2{
 	}
 
     public static void main(String [] args){
-    	
-		System.out.println(parseDateToStr(null, "yyyy-MM-dd"));
+    	Calendar cal1 = Calendar.getInstance();
+    	cal1.set(2000, 0, 1);
+    	Date time1 = cal1.getTime();
+    	DateFormat dateFormat = getDefaultDateFormat();
+    	String format1 = dateFormat.format(time1);
+		System.out.println(format1);
+		Calendar cal2 = Calendar.getInstance();
+    	cal2.set(2000, 11, 31);
+    	Date time2 = cal2.getTime();
+    	String format2 = dateFormat.format(time2);
+		System.out.println(format2);
+		List<String> list = listAllDaysBetweenOfTwoDates(format1, format2);
+		System.out.println(list.size());
 	}
 	
 }
