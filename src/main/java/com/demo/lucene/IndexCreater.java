@@ -14,6 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 /**
  * Lucene:索引创建类
@@ -35,6 +36,7 @@ public class IndexCreater {
 		Directory dir = FSDirectory.open(Paths.get(indexDir));
 		// 实例化标准分析器
 		Analyzer analyzer = new StandardAnalyzer();
+		// Analyzer analyzer = new IKAnalyzer();
 		IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 		indexWriter = new IndexWriter(dir, conf);
 	}
